@@ -27,7 +27,7 @@
       box-shadow: 0 10px 25px rgba(0,0,0,0.15);
       position: relative;
       z-index: 3;
-      width: 320px;
+      width: 340px;
       backdrop-filter: blur(5px);
     }
 
@@ -96,26 +96,23 @@
       100% { transform: scale(1.4) translateY(-120px); opacity: 0; }
     }
 
-    /* BACKGROUND STICKERS */
+    /* STICKERS */
     .sticker {
       position: absolute;
       width: 110px;
-      opacity: 0.12;
+      opacity: 1;
       z-index: 1;
       pointer-events: none;
-      animation: drift 6s ease-in-out infinite;
-    }
-
-    @keyframes drift {
-      0% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-      100% { transform: translateY(0); }
     }
 
     .s1 { top: 10%; left: 5%; }
     .s2 { top: 15%; right: 8%; }
     .s3 { bottom: 10%; left: 10%; }
     .s4 { bottom: 12%; right: 10%; }
+
+    .s5 { top: 5%; left: 45%; }
+    .s6 { top: 60%; left: 5%; }
+    .s7 { top: 65%; right: 5%; }
 
     /* BOTTOM GIF */
     #bottomGif {
@@ -133,11 +130,16 @@
 
 <body>
 
-  <!-- BACKGROUND STICKERS -->
+  <!-- ORIGINAL STICKERS -->
   <img src="https://media.tenor.com/MvPZleT_pWcAAAAM/oshawott-pokemon.gif" class="sticker s1">
   <img src="https://media.tenor.com/zvHUFZ_IODgAAAAM/oshapip.gif" class="sticker s2">
   <img src="https://media.tenor.com/j55pHVgebMIAAAAM/meowth-sleeping-on-wool.gif" class="sticker s3">
   <img src="https://media1.tenor.com/m/VDszZM1qdaYAAAAC/pokemon-team-rocket.gif" class="sticker s4">
+
+  <!-- NEW MEOWTH GIFS -->
+  <img src="https://media.tenor.com/GPgydYlGEKgAAAAM/meowth-team-rocket.gif" class="sticker s5">
+  <img src="https://media1.tenor.com/m/9ualI9AJSSsAAAAC/meowth-pokemon.gif" class="sticker s6">
+  <img src="https://media.tenor.com/jG1w4gTuVz4AAAAM/pokemon-meowth.gif" class="sticker s7">
 
   <div class="card">
 
@@ -158,7 +160,6 @@
 
   </div>
 
-  <!-- bottom gif -->
   <img id="bottomGif" src="https://media.tenor.com/pFrb9pSkn7EAAAAM/pokemon.gif">
 
 <script>
@@ -170,7 +171,7 @@ function activate() {
   playCats();
 }
 
-/* 🐱 CAT EMOJI BURST */
+/* 🐱 CAT EMOJIS */
 function spawnCats() {
   const cats = ["🐱", "🐾", "😺", "😸", "😹"];
 
@@ -189,7 +190,7 @@ function spawnCats() {
   }
 }
 
-/* 🐱 CAT SOUNDS */
+/* 🔊 FIXED CAT SOUND SYSTEM */
 function playCats() {
   const sounds = [
     "https://actions.google.com/sounds/v1/animals/cat_meow_1.ogg",
@@ -197,11 +198,16 @@ function playCats() {
     "https://actions.google.com/sounds/v1/animals/cat_meow_3.ogg"
   ];
 
-  for (let i = 0; i < 3; i++) {
-    const audio = new Audio(sounds[Math.floor(Math.random() * sounds.length)]);
-    audio.volume = 0.6;
-    setTimeout(() => audio.play(), i * 200);
-  }
+  const unlock = new Audio(sounds[0]);
+  unlock.play().catch(() => {});
+
+  setTimeout(() => {
+    for (let i = 0; i < 3; i++) {
+      const audio = new Audio(sounds[Math.floor(Math.random() * sounds.length)]);
+      audio.volume = 0.7;
+      audio.play().catch(() => {});
+    }
+  }, 120);
 }
 </script>
 
