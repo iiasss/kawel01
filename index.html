@@ -5,65 +5,59 @@
 
   <style>
     body {
-      background: linear-gradient(135deg, #b8e6b8, #dff7df);
-      font-family: Arial, sans-serif;
-      text-align: center;
       margin: 0;
       padding: 0;
       overflow: hidden;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #b8e6b8, #dff7df);
       color: #1f3d1f;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    /* MAIN CARD */
+    .card {
+      text-align: center;
+      padding: 30px;
+      background: rgba(255,255,255,0.55);
+      border-radius: 20px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+      position: relative;
+      z-index: 3;
+      width: 320px;
+      backdrop-filter: blur(5px);
     }
 
     h1 {
-      margin-top: 40px;
+      margin: 0;
       font-size: 28px;
       color: #2f5e2f;
-      position: relative;
-      z-index: 2;
     }
 
     .sub {
-      font-size: 16px;
+      font-size: 14px;
+      margin-top: 6px;
       color: #3b6b3b;
-      margin-top: -8px;
-      position: relative;
-      z-index: 2;
     }
-
-    /* 🐱 BACKGROUND CATS */
-    .bg-cat {
-      position: absolute;
-      width: 90px;
-      opacity: 0.12;
-      z-index: 0;
-      pointer-events: none;
-    }
-
-    .c1 { top: 12%; left: 6%; }
-    .c2 { top: 38%; right: 8%; }
-    .c3 { bottom: 15%; left: 40%; }
 
     /* BUTTON */
     .meowth-btn {
-      width: 190px;
-      margin-top: 50px;
+      width: 170px;
+      margin-top: 20px;
       cursor: pointer;
-
-      border-radius: 20px;
+      border-radius: 18px;
       border: 2px solid #2f5e2f;
-      background: rgba(255,255,255,0.6);
-      padding: 10px;
-
-      box-shadow: 0 6px 12px rgba(0,0,0,0.15);
-      transition: transform 0.15s ease;
+      padding: 8px;
+      background: white;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.12);
       animation: float 3s ease-in-out infinite;
-
-      position: relative;
-      z-index: 2;
     }
 
     .meowth-btn:active {
-      transform: scale(0.92);
+      transform: scale(0.93);
     }
 
     @keyframes float {
@@ -73,48 +67,55 @@
     }
 
     .click-text {
-      margin-top: 10px;
-      font-size: 18px;
+      margin-top: 8px;
       font-weight: bold;
+      font-size: 16px;
       color: #2f5e2f;
-      position: relative;
-      z-index: 2;
     }
 
     #message {
       display: none;
-      margin-top: 20px;
-      font-size: 22px;
-      background: rgba(255,255,255,0.5);
-      padding: 15px;
-      border-radius: 14px;
-      width: fit-content;
-      margin-left: auto;
-      margin-right: auto;
-      animation: pop 0.4s ease;
-
-      position: relative;
-      z-index: 2;
+      margin-top: 15px;
+      font-size: 18px;
+      padding: 10px;
+      border-radius: 12px;
+      background: rgba(255,255,255,0.6);
     }
 
-    @keyframes pop {
-      from { transform: scale(0.6); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
-    }
-
-    /* FIREWORKS */
-    .firework {
+    /* EMOJIS */
+    .emoji {
       position: absolute;
       font-size: 22px;
-      animation: explode 1.2s ease-out forwards;
+      animation: pop 1.2s ease-out forwards;
       pointer-events: none;
       z-index: 2;
     }
 
-    @keyframes explode {
+    @keyframes pop {
       0% { transform: scale(0.3) translateY(0); opacity: 1; }
-      100% { transform: scale(1.5) translateY(-120px); opacity: 0; }
+      100% { transform: scale(1.4) translateY(-120px); opacity: 0; }
     }
+
+    /* BACKGROUND STICKERS */
+    .sticker {
+      position: absolute;
+      width: 110px;
+      opacity: 0.12;
+      z-index: 1;
+      pointer-events: none;
+      animation: drift 6s ease-in-out infinite;
+    }
+
+    @keyframes drift {
+      0% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0); }
+    }
+
+    .s1 { top: 10%; left: 5%; }
+    .s2 { top: 15%; right: 8%; }
+    .s3 { bottom: 10%; left: 10%; }
+    .s4 { bottom: 12%; right: 10%; }
 
     /* BOTTOM GIF */
     #bottomGif {
@@ -123,95 +124,86 @@
       bottom: 10px;
       left: 50%;
       transform: translateX(-50%);
-      width: 170px;
-      border-radius: 12px;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+      width: 150px;
       z-index: 2;
+      border-radius: 12px;
     }
   </style>
 </head>
 
 <body>
 
-  <!-- BACKGROUND CATS -->
-  <img src="https://media.tenor.com/0GfKk2l6QJQAAAAi/cat.gif" class="bg-cat c1">
-  <img src="https://media.tenor.com/2r9ZpQ7kQ3kAAAAi/cat.gif" class="bg-cat c2">
-  <img src="https://media.tenor.com/7xgQwq1m9QIAAAAi/cat.gif" class="bg-cat c3">
+  <!-- BACKGROUND STICKERS -->
+  <img src="https://media.tenor.com/MvPZleT_pWcAAAAM/oshawott-pokemon.gif" class="sticker s1">
+  <img src="https://media.tenor.com/zvHUFZ_IODgAAAAM/oshapip.gif" class="sticker s2">
+  <img src="https://media.tenor.com/j55pHVgebMIAAAAM/meowth-sleeping-on-wool.gif" class="sticker s3">
+  <img src="https://media1.tenor.com/m/VDszZM1qdaYAAAAC/pokemon-team-rocket.gif" class="sticker s4">
 
-  <h1>grats</h1>
-  <div class="sub">click meowth for a surprise!</div>
+  <div class="card">
 
-  <img
-    src="https://media1.tenor.com/m/pJo28GRZZPQAAAAC/meowth-pokemon.gif"
-    class="meowth-btn"
-    onclick="activate()"
-  >
+    <h1>grats</h1>
+    <div class="sub">click meowth for a surprise!</div>
 
-  <div class="click-text">click me</div>
+    <img
+      src="https://media1.tenor.com/m/pJo28GRZZPQAAAAC/meowth-pokemon.gif"
+      class="meowth-btn"
+      onclick="activate()"
+    >
 
-  <div id="message">
-    Meowth approved.
+    <div class="click-text">click me</div>
+
+    <div id="message">
+      halfway done, woohoo!
+    </div>
+
   </div>
 
   <!-- bottom gif -->
-  <img
-    id="bottomGif"
-    src="https://media.tenor.com/pFrb9pSkn7EAAAAM/pokemon.gif"
-  >
+  <img id="bottomGif" src="https://media.tenor.com/pFrb9pSkn7EAAAAM/pokemon.gif">
 
 <script>
-  function activate() {
-    document.getElementById("message").style.display = "block";
-    document.getElementById("bottomGif").style.display = "block";
+function activate() {
+  document.getElementById("message").style.display = "block";
+  document.getElementById("bottomGif").style.display = "block";
 
-    fireworkBurst();
-    fireSound();
+  spawnCats();
+  playCats();
+}
+
+/* 🐱 CAT EMOJI BURST */
+function spawnCats() {
+  const cats = ["🐱", "🐾", "😺", "😸", "😹"];
+
+  for (let i = 0; i < 25; i++) {
+    const el = document.createElement("div");
+    el.className = "emoji";
+    el.innerText = cats[Math.floor(Math.random() * cats.length)];
+
+    el.style.left = Math.random() * 100 + "vw";
+    el.style.top = Math.random() * 70 + "vh";
+    el.style.fontSize = (18 + Math.random() * 14) + "px";
+
+    document.body.appendChild(el);
+
+    setTimeout(() => el.remove(), 1200);
   }
+}
 
-  function fireworkBurst() {
-    const emojis = ["🎆", "🎇", "✨", "💥"];
+/* 🐱 CAT SOUNDS */
+function playCats() {
+  const sounds = [
+    "https://actions.google.com/sounds/v1/animals/cat_meow_1.ogg",
+    "https://actions.google.com/sounds/v1/animals/cat_meow_2.ogg",
+    "https://actions.google.com/sounds/v1/animals/cat_meow_3.ogg"
+  ];
 
-    for (let i = 0; i < 25; i++) {
-      const el = document.createElement("div");
-      el.className = "firework";
-      el.innerText = emojis[Math.floor(Math.random() * emojis.length)];
-
-      el.style.left = Math.random() * 100 + "vw";
-      el.style.top = (50 + Math.random() * 30) + "vh";
-      el.style.fontSize = (18 + Math.random() * 12) + "px";
-
-      document.body.appendChild(el);
-
-      setTimeout(() => el.remove(), 1200);
-    }
+  for (let i = 0; i < 3; i++) {
+    const audio = new Audio(sounds[Math.floor(Math.random() * sounds.length)]);
+    audio.volume = 0.6;
+    setTimeout(() => audio.play(), i * 200);
   }
-
-  function fireSound() {
-    const ctx = new (window.AudioContext || window.webkitAudioContext)();
-
-    for (let i = 0; i < 10; i++) {
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-
-      osc.type = "square";
-      osc.frequency.value = 80 + Math.random() * 600;
-
-      gain.gain.setValueAtTime(0.12, ctx.currentTime + i * 0.05);
-      gain.gain.exponentialRampToValueAtTime(
-        0.001,
-        ctx.currentTime + i * 0.05 + 0.25
-      );
-
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-
-      osc.start(ctx.currentTime + i * 0.03);
-      osc.stop(ctx.currentTime + i * 0.2);
-    }
-  }
+}
 </script>
 
-</body>
-</html>
 </body>
 </html>
