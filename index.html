@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>congratulations!!</title>
+  <title>congratulations</title>
 
   <style>
     body {
@@ -127,21 +127,23 @@
     <h1>congratulations</h1>
     <div class="sub">click meowth for a surprise!</div>
 
+    <!-- 🐱 MEOWTH (HOVER + CLICK) -->
     <img
       src="https://media1.tenor.com/m/pJo28GRZZPQAAAAC/meowth-pokemon.gif"
       class="meowth-btn"
       onclick="activate()"
+      onmouseenter="playMeow()"
     >
 
     <div class="click-text">click me</div>
 
     <div id="message">
-      congratulations, miming! halfway done, woohoo! choko luck all the way!
+      halfway done, woohoo!
     </div>
 
   </div>
 
-  <!-- GIFS (hidden until click) -->
+  <!-- GIFS -->
   <img src="https://media.tenor.com/MvPZleT_pWcAAAAM/oshawott-pokemon.gif" class="sticker s1">
   <img src="https://media.tenor.com/zvHUFZ_IODgAAAAM/oshapip.gif" class="sticker s2">
   <img src="https://media.tenor.com/j55pHVgebMIAAAAM/meowth-sleeping-on-wool.gif" class="sticker s3">
@@ -153,33 +155,71 @@
   <img id="bottomGif" src="https://media.tenor.com/pFrb9pSkn7EAAAAM/pokemon.gif">
 
 <script>
-let audioUnlocked = false;
 
+let audioCtx;
+let unlocked = false;
+
+const sounds = [
+  "https://actions.google.com/sounds/v1/animals/cat_meow_1.ogg",
+  "https://actions.google.com/sounds/v1/animals/cat_meow_2.ogg",
+  "https://actions.google.com/sounds/v1/animals/cat_meow_3.ogg"
+];
+
+/* 🔊 AUDIO UNLOCK (FIX FOR BROWSER BLOCKING) */
 function unlockAudio() {
-  if (audioUnlocked) return;
+  if (unlocked) return;
 
-  const audio = new Audio("https://actions.google.com/sounds/v1/animals/cat_meow_1.ogg");
-  audio.volume = 0.01;
-  audio.play().catch(() => {});
-  audioUnlocked = true;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+  const buffer = audioCtx.createBuffer(1, 1, 22050);
+  const source = audioCtx.createBufferSource();
+  source.buffer = buffer;
+  source.connect(audioCtx.destination);
+  source.start(0);
+
+  unlocked = true;
 }
 
+/* 🐱 HOVER MEOW */
+function playMeow() {
+  unlockAudio();
+
+  const audio = new Audio(
+    sounds[Math.floor(Math.random() * sounds.length)]
+  );
+
+  audio.volume = 0.8;
+  audio.play().catch(() => {});
+}
+
+/* 🎉 CLICK EFFECT */
+function activate() {
+  document.getElementById("message").style.display = "block";
+  document.getElementById("bottomGif").style.display = "block";
+
+  document.querySelectorAll(".sticker").forEach(el => {
+    el.style.display = "block";
+  });
+
+  spawnCats();
+  playCats();
+}
+
+/* 🔊 CLICK SOUND BURST */
 function playCats() {
   unlockAudio();
 
-  const sounds = [
-    "https://actions.google.com/sounds/v1/animals/cat_meow_1.ogg",
-    "https://actions.google.com/sounds/v1/animals/cat_meow_2.ogg",
-    "https://actions.google.com/sounds/v1/animals/cat_meow_3.ogg"
-  ];
-
   for (let i = 0; i < 3; i++) {
-    const audio = new Audio(sounds[Math.floor(Math.random() * sounds.length)]);
+    const audio = new Audio(
+      sounds[Math.floor(Math.random() * sounds.length)]
+    );
+
     audio.volume = 0.8;
     audio.play().catch(() => {});
   }
 }
 
+/* 🐱 EMOJIS */
 function spawnCats() {
   const cats = ["🐱", "🐾", "😺", "😸", "😹"];
 
@@ -196,19 +236,10 @@ function spawnCats() {
   }
 }
 
-function activate() {
-  document.getElementById("message").style.display = "block";
-  document.getElementById("bottomGif").style.display = "block";
-
-  // SHOW GIFS ONLY ON CLICK
-  document.querySelectorAll(".sticker").forEach(el => {
-    el.style.display = "block";
-  });
-
-  spawnCats();
-  playCats();
-}
 </script>
+
+</body>
+</html>
 
 </body>
 </html>
