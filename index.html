@@ -17,6 +17,23 @@
       align-items: center;
     }
 
+    /* 🌟 FLASH EFFECT */
+    .flash {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(120, 255, 120, 0.25);
+      z-index: 999;
+      animation: flashFade 0.6s ease-out forwards;
+    }
+
+    @keyframes flashFade {
+      0% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+
     /* 🌿 ambient floating background */
     .bg-float {
       position: absolute;
@@ -42,6 +59,18 @@
       position: relative;
       z-index: 3;
       backdrop-filter: blur(5px);
+      transition: transform 0.2s;
+    }
+
+    /* 🎉 pop animation */
+    .pop-big {
+      animation: popBig 0.4s ease-out;
+    }
+
+    @keyframes popBig {
+      0% { transform: scale(0.8); }
+      50% { transform: scale(1.1); }
+      100% { transform: scale(1); }
     }
 
     h1 {
@@ -222,23 +251,35 @@ function activate() {
     el.style.display = "block";
   });
 
+  // 🌟 flash effect
+  const flash = document.createElement("div");
+  flash.className = "flash";
+  document.body.appendChild(flash);
+  setTimeout(() => flash.remove(), 600);
+
+  // 🎉 pop card
+  const card = document.querySelector(".card");
+  card.classList.add("pop-big");
+  setTimeout(() => card.classList.remove("pop-big"), 400);
+
   spawnCats();
 }
 
-/* 🐱 EMOJIS */
+/* 🐱 BIG EMOJI BURST */
 function spawnCats() {
-  const cats = ["🐱", "🐾", "😺", "😸", "😹"];
+  const cats = ["🐱","🐾","😺","😸","😹","💚","✨"];
 
-  for (let i = 0; i < 25; i++) {
+  for (let i = 0; i < 60; i++) {
     const el = document.createElement("div");
     el.className = "emoji";
     el.innerText = cats[Math.floor(Math.random() * cats.length)];
 
     el.style.left = Math.random() * 100 + "vw";
-    el.style.top = Math.random() * 70 + "vh";
+    el.style.top = Math.random() * 80 + "vh";
+    el.style.fontSize = (18 + Math.random() * 18) + "px";
 
     document.body.appendChild(el);
-    setTimeout(() => el.remove(), 1200);
+    setTimeout(() => el.remove(), 1500);
   }
 }
 
@@ -250,7 +291,6 @@ setInterval(() => {
 
   el.style.left = Math.random() * 100 + "vw";
   el.style.top = "100vh";
-  el.style.fontSize = "16px";
 
   document.body.appendChild(el);
 
