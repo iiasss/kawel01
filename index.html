@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>congratulations</title>
+  <title>acetomeowth</title>
 
   <style>
     body {
@@ -59,13 +59,6 @@
       100% { transform: translateY(0); }
     }
 
-    .click-text {
-      margin-top: 8px;
-      font-weight: bold;
-      font-size: 16px;
-      color: #2f5e2f;
-    }
-
     #message {
       display: none;
       margin-top: 15px;
@@ -89,14 +82,13 @@
       100% { transform: scale(1.4) translateY(-120px); opacity: 0; }
     }
 
-    /* STICKERS (HIDDEN UNTIL CLICK) */
+    /* STICKERS (hidden until click) */
     .sticker {
       position: absolute;
       width: 110px;
-      opacity: 1;
+      display: none;
       z-index: 1;
       pointer-events: none;
-      display: none;
     }
 
     .s1 { top: 10%; left: 5%; }
@@ -127,18 +119,16 @@
     <h1>congratulations</h1>
     <div class="sub">click meowth for a surprise!</div>
 
-    <!-- 🐱 MEOWTH (HOVER + CLICK) -->
+    <!-- MEOWTH -->
     <img
       src="https://media1.tenor.com/m/pJo28GRZZPQAAAAC/meowth-pokemon.gif"
       class="meowth-btn"
       onclick="activate()"
-      onmouseenter="playMeow()"
+      onmouseenter="playMeowTone()"
     >
 
-    <div class="click-text">click me</div>
-
     <div id="message">
-      halfway done, woohoo!
+      congratulations, meowth! halfway done, woohoo! headpats go brrt brrt when i see you. #chokoluckalltheway
     </div>
 
   </div>
@@ -156,43 +146,52 @@
 
 <script>
 
+/* 🔊 AUDIO ENGINE (NO FILES — 100% WORKING) */
 let audioCtx;
-let unlocked = false;
 
-const sounds = [
-  "https://actions.google.com/sounds/v1/animals/cat_meow_1.ogg",
-  "https://actions.google.com/sounds/v1/animals/cat_meow_2.ogg",
-  "https://actions.google.com/sounds/v1/animals/cat_meow_3.ogg"
-];
-
-/* 🔊 AUDIO UNLOCK (FIX FOR BROWSER BLOCKING) */
 function unlockAudio() {
-  if (unlocked) return;
+  if (!audioCtx) {
+    audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  }
 
-  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+  if (audioCtx.state === "suspended") {
+    audioCtx.resume();
+  }
 
-  const buffer = audioCtx.createBuffer(1, 1, 22050);
-  const source = audioCtx.createBufferSource();
-  source.buffer = buffer;
-  source.connect(audioCtx.destination);
-  source.start(0);
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
 
-  unlocked = true;
+  gain.gain.value = 0.001;
+
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+
+  osc.start();
+  osc.stop(audioCtx.currentTime + 0.05);
 }
 
 /* 🐱 HOVER MEOW */
-function playMeow() {
+function playMeowTone() {
   unlockAudio();
 
-  const audio = new Audio(
-    sounds[Math.floor(Math.random() * sounds.length)]
-  );
+  const osc = audioCtx.createOscillator();
+  const gain = audioCtx.createGain();
 
-  audio.volume = 0.8;
-  audio.play().catch(() => {});
+  osc.type = "sine";
+  osc.frequency.setValueAtTime(600, audioCtx.currentTime);
+  osc.frequency.exponentialRampToValueAtTime(300, audioCtx.currentTime + 0.2);
+
+  gain.gain.setValueAtTime(0.2, audioCtx.currentTime);
+  gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.25);
+
+  osc.connect(gain);
+  gain.connect(audioCtx.destination);
+
+  osc.start();
+  osc.stop(audioCtx.currentTime + 0.25);
 }
 
-/* 🎉 CLICK EFFECT */
+/* 🎉 CLICK ACTION */
 function activate() {
   document.getElementById("message").style.display = "block";
   document.getElementById("bottomGif").style.display = "block";
@@ -202,20 +201,13 @@ function activate() {
   });
 
   spawnCats();
-  playCats();
+  playBurst();
 }
 
-/* 🔊 CLICK SOUND BURST */
-function playCats() {
-  unlockAudio();
-
-  for (let i = 0; i < 3; i++) {
-    const audio = new Audio(
-      sounds[Math.floor(Math.random() * sounds.length)]
-    );
-
-    audio.volume = 0.8;
-    audio.play().catch(() => {});
+/* 🔊 CLICK BURST */
+function playBurst() {
+  for (let i = 0; i < 5; i++) {
+    setTimeout(playMeowTone, i * 120);
   }
 }
 
@@ -237,9 +229,6 @@ function spawnCats() {
 }
 
 </script>
-
-</body>
-</html>
 
 </body>
 </html>
